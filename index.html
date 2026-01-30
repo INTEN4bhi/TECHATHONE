@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TECHATHONE | Intercollege Tech Fest</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+      }
+    </script>
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        font-family: "Outfit", sans-serif;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      :root {
+        --red1: #7f1d1d;
+        --red2: #991b1b;
+        --red3: #be123c;
+      }
+
+      /* background grid */
+      .grid-bg {
+        background-image: radial-gradient(
+          rgba(255, 255, 255, 0.06) 1px,
+          transparent 1px
+        );
+        background-size: 42px 42px;
+      }
+
+      /* premium glass */
+      .glass {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(18px);
+      }
+      /* light glass */
+      .glassLight {
+        background: rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        backdrop-filter: blur(18px);
+      }
+
+      /* gradient text */
+      .text-grad {
+        background: linear-gradient(90deg, var(--red1), var(--red3), var(--red2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Scroll progress */
+      #progressBar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        width: 0%;
+        z-index: 9999;
+        background: linear-gradient(90deg, var(--red1), var(--red3), var(--red2));
+      }
+
+      /* reveal */
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: all 0.9s ease;
+      }
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* floating hero */
+      .floaty {
+        animation: float 6s ease-in-out infinite;
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      section {
+        scroll-margin-top: 100px;
+      }
+
+      /* navlink + scrollspy */
+      .navlink {
+        position: relative;
+        padding: 6px 2px;
+        transition: 0.25s;
+        font-weight: 500;
+      }
+      .navlink:hover {
+        opacity: 1;
+      }
+      .navlink.active::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -4px;
+        height: 2px;
+        width: 100%;
+        border-radius: 99px;
+        background: linear-gradient(90deg, var(--red1), var(--red3), var(--red2));
+        opacity: 0.95;
+      }
+
+      /* marquee sponsors */
+      .marquee {
+        display: flex;
+        overflow: hidden;
+        user-select: none;
+        mask-image: linear-gradient(
+          to right,
+          transparent,
+          black 12%,
+          black 88%,
+          transparent
+        );
+      }
+      .marquee-track {
+        display: flex;
+        gap: 18px;
+        padding: 4px 0;
+        white-space: nowrap;
+        animation: marquee 20s linear infinite;
+      }
+      @keyframes marquee {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* hover lift */
+      .cardHover {
+        transition: transform 0.25s ease, background 0.25s ease;
+      }
+      .cardHover:hover {
+        transform: translateY(-6px);
+      }
+    </style>
+  </head>
+
+  <body
+    class="transition-colors duration-500 bg-white text-black dark:bg-black dark:text-white overflow-x-hidden"
+  >
+    <!-- Progress Bar -->
+    <div id="progressBar"></div>
+
+    <!-- Background -->
+    <div class="fixed inset-0 -z-10">
+      <!-- dark -->
+      <div class="absolute inset-0 bg-black hidden dark:block"></div>
+      <div class="absolute inset-0 grid-bg opacity-30 hidden dark:block"></div>
+
+      <!-- light -->
+      <div class="absolute inset-0 bg-white block dark:hidden"></div>
+      <div
+        class="absolute inset-0 opacity-30 block dark:hidden"
+        style="
+          background-image: radial-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+          background-size: 42px 42px;
+        "
+      ></div>
+
+      <!-- deep red glows -->
+      <div
+        class="absolute -top-44 left-0 w-[650px] h-[650px] rounded-full blur-[190px] bg-[#7f1d1d]/25"
+      ></div>
+      <div
+        class="absolute top-44 -right-52 w-[700px] h-[700px] rounded-full blur-[200px] bg-[#be123c]/18"
+      ></div>
+      <div
+        class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[820px] h-[820px] rounded-full blur-[210px] bg-[#991b1b]/14"
+      ></div>
+    </div>
+
+    <!-- NAVBAR -->
+    <header
+      class="sticky top-0 z-50 relative border-b border-black/10 dark:border-white/10 bg-white/60 dark:bg-black/40 backdrop-blur-xl"
+    >
+      <div class="max-w-7xl mx-auto px-5 py-4 flex items-center gap-4">
+        <!-- LEFT: Logo -->
+        <a href="#home" class="flex items-center gap-3 shrink-0">
+          <img
+  src="./posters/logo.png"
+  alt="TECHATHONE Logo"
+  class="w-10 h-10 rounded-2xl object-cover"
+/>
+
+          <div class="leading-tight">
+            <p class="font-black tracking-tight text-lg">
+              TECH<span class="text-red-500">A</span>THONE
+            </p>
+            <p class="text-[11px] text-slate-600 dark:text-slate-300">
+              Department Of Computer Science • St Antony's College
+            </p>
+          </div>
+        </a>
+
+        <!-- CENTER: Desktop Pill Navbar -->
+        <div class="hidden lg:flex flex-1 justify-center">
+          <nav
+            class="rounded-full px-6 py-3 flex items-center gap-7 text-sm
+                   border shadow-[0_20px_80px_rgba(0,0,0,0.25)]
+                   max-w-[860px] w-full justify-center
+                   bg-black/5 dark:bg-white/5
+                   border-black/10 dark:border-white/10"
+          >
+            <a
+              class="navlink text-slate-700 dark:text-slate-200"
+              href="#about"
+              data-section="about"
+              >About</a
+            >
+            <a
+              class="navlink text-slate-700 dark:text-slate-200"
+              href="#countdown"
+              data-section="countdown"
+              >Countdown</a
+            >
+            <a
+              class="navlink text-slate-700 dark:text-slate-200"
+              href="#events"
+              data-section="events"
+              >Events</a
+            >
+            <a
+              class="navlink text-slate-700 dark:text-slate-200"
+              href="#posters"
+              data-section="posters"
+              >Posters</a
+            >
+            <a
+              class="navlink text-slate-700 dark:text-slate-200"
+              href="#sponsors"
+              data-section="sponsors"
+              >Sponsors</a
+            >
+            <a
+              class="navlink text-slate-700 dark:text-slate-200"
+              href="#faq"
+              data-section="faq"
+              >FAQ</a
+            >
+            <a
+              class="navlink text-slate-700 dark:text-slate-200"
+              href="#contact"
+              data-section="contact"
+              >Contact</a
+            >
+          </nav>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="ml-auto flex items-center gap-3 shrink-0">
+          <!-- THEME TOGGLE -->
+          <button
+            id="themeToggle"
+            class="w-11 h-11 rounded-2xl flex items-center justify-center
+                   border border-black/10 dark:border-white/10
+                   bg-black/5 dark:bg-white/10 hover:scale-[1.05] transition"
+            aria-label="Toggle Theme"
+            title="Toggle Dark/Light Mode"
+          >
+            <span id="themeIcon" class="text-xl">🌙</span>
+          </button>
+
+          <!-- Desktop Register -->
+          <a
+            href="#register"
+            class="hidden lg:inline-flex px-5 py-2.5 rounded-2xl font-bold text-white
+                   bg-gradient-to-tr from-[#7f1d1d] to-[#be123c]
+                   hover:scale-[1.03] transition"
+          >
+            Register
+          </a>
+
+          <!-- Hamburger -->
+          <button
+            id="menuBtn"
+            class="lg:hidden w-11 h-11 rounded-2xl flex items-center justify-center
+                   border border-black/10 dark:border-white/10
+                   bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/10 transition"
+            aria-label="Open Menu"
+          >
+            <div class="space-y-1.5">
+              <span class="block w-5 h-[2px] bg-black/90 dark:bg-white/90"></span>
+              <span class="block w-5 h-[2px] bg-black/60 dark:bg-white/70"></span>
+              <span class="block w-5 h-[2px] bg-black/90 dark:bg-white/90"></span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Dropdown Menu -->
+      <div
+        id="mobileMenu"
+        class="lg:hidden hidden absolute left-0 right-0 top-full z-[999]
+               border-t border-black/10 dark:border-white/10
+               bg-white/80 dark:bg-black/80 backdrop-blur-xl"
+      >
+        <div class="max-w-7xl mx-auto px-5 py-5 grid gap-3 text-sm">
+          <a class="navlink text-slate-700 dark:text-slate-200" href="#about" data-section="about">About</a>
+          <a class="navlink text-slate-700 dark:text-slate-200" href="#countdown" data-section="countdown">Countdown</a>
+          <a class="navlink text-slate-700 dark:text-slate-200" href="#events" data-section="events">Events</a>
+          <a class="navlink text-slate-700 dark:text-slate-200" href="#posters" data-section="posters">Posters</a>
+          <a class="navlink text-slate-700 dark:text-slate-200" href="#sponsors" data-section="sponsors">Sponsors</a>
+          <a class="navlink text-slate-700 dark:text-slate-200" href="#faq" data-section="faq">FAQ</a>
+          <a class="navlink text-slate-700 dark:text-slate-200" href="#contact" data-section="contact">Contact</a>
+
+          <a
+            href="#register"
+            class="mt-2 inline-flex justify-center px-5 py-2.5 rounded-2xl font-bold text-white
+                   bg-gradient-to-tr from-[#7f1d1d] to-[#be123c]"
+          >
+            Register
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section id="home" class="max-w-7xl mx-auto px-5 pt-16 pb-20">
+      <div
+        class="rounded-[42px] p-8 md:p-12 overflow-hidden relative
+               bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 backdrop-blur-xl"
+      >
+        <div
+          class="absolute inset-0 opacity-40 bg-gradient-to-r from-[#7f1d1d]/20 via-transparent to-[#be123c]/18"
+        ></div>
+
+        <div class="relative grid lg:grid-cols-2 gap-12 items-center">
+          <div class="reveal">
+            <div
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-full border
+                     border-black/10 dark:border-white/10
+                     bg-white/40 dark:bg-black/40 text-sm text-slate-700 dark:text-slate-200"
+            >
+              Intercollege Tech Fest • TECHATHONE 2026
+            </div>
+
+            <h1 class="text-5xl md:text-7xl font-black mt-6 leading-[1.05]">
+              Where Tech Meets <span class="text-grad">Battle</span>.
+            </h1>
+
+            <p class="text-slate-600 dark:text-slate-300 mt-6 text-lg leading-relaxed max-w-xl">
+              TECHATHONE is hosted by the Department Of Computer Science, St
+              Antony's College Peruvanthanam. A premium platform for
+              competitions, innovation and gaming.
+            </p>
+
+            <div class="mt-8 flex flex-wrap gap-4">
+              <a
+                href="#events"
+                class="px-6 py-3 rounded-2xl border border-black/10 dark:border-white/10
+                       bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 transition font-semibold"
+              >
+                Explore Events
+              </a>
+              <a
+                href="#register"
+                class="px-6 py-3 rounded-2xl font-bold text-white bg-gradient-to-tr from-[#7f1d1d] to-[#be123c] hover:scale-[1.03] transition"
+              >
+                Register Now
+              </a>
+            </div>
+          </div>
+
+          <div class="relative reveal">
+            <div
+              class="absolute -inset-6 blur-3xl rounded-[40px] bg-gradient-to-tr from-[#7f1d1d]/30 to-[#be123c]/22"
+            ></div>
+            <div
+              class="relative rounded-[40px] overflow-hidden floaty border border-black/10 dark:border-white/10
+                     bg-black/5 dark:bg-white/5 backdrop-blur-xl"
+            >
+              <img
+                src="./posters/Thechathone.jpg.png"
+                alt="Tech Fest"
+                class="w-full h-[430px] object-cover opacity-85"
+              />
+              <div class="p-6">
+                <p class="font-bold text-xl">TECHATHONE Arena</p>
+                <p class="text-slate-600 dark:text-slate-300 text-sm mt-2">
+                  Competitions • Esports • Expo • Innovation
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COUNTDOWN -->
+    <section id="countdown" class="max-w-7xl mx-auto px-5 pb-20">
+      <div
+        class="rounded-[42px] p-10 md:p-12 reveal border border-black/10 dark:border-white/10
+               bg-black/5 dark:bg-white/5 backdrop-blur-xl"
+      >
+        <div class="flex items-end justify-between gap-6 flex-wrap">
+          <div>
+            <h2 class="text-3xl md:text-4xl font-black">
+              Fest <span class="text-grad">Countdown</span>
+            </h2>
+            <p class="text-slate-600 dark:text-slate-300 mt-2">It reminds the Eve.</p>
+          </div>
+          <div class="text-sm text-slate-500 dark:text-slate-400">Auto updates every second</div>
+        </div>
+
+        <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div class="rounded-3xl p-6 cardHover border border-black/10 dark:border-white/10 bg-white/40 dark:bg-white/10">
+            <p id="days" class="text-4xl font-black text-red-600 dark:text-red-300">00</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Days</p>
+          </div>
+          <div class="rounded-3xl p-6 cardHover border border-black/10 dark:border-white/10 bg-white/40 dark:bg-white/10">
+            <p id="hours" class="text-4xl font-black text-rose-600 dark:text-rose-300">00</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Hours</p>
+          </div>
+          <div class="rounded-3xl p-6 cardHover border border-black/10 dark:border-white/10 bg-white/40 dark:bg-white/10">
+            <p id="minutes" class="text-4xl font-black text-red-600 dark:text-red-300">00</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Minutes</p>
+          </div>
+          <div class="rounded-3xl p-6 cardHover border border-black/10 dark:border-white/10 bg-white/40 dark:bg-white/10">
+            <p id="seconds" class="text-4xl font-black text-rose-600 dark:text-rose-300">00</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Seconds</p>
+          </div>
+        </div>
+      </div>
+    </section>
+     <!-- ABOUT -->
+    <section id="about" class="max-w-7xl mx-auto px-5 pb-20">
+      <div class="grid lg:grid-cols-2 gap-8 items-start">
+        <div class="glass rounded-3xl p-8 reveal">
+          <h2 class="text-3xl md:text-4xl font-black">
+            About <span class="text-red-300">TECHATHONE</span>
+          </h2>
+          <p class="text-slate-300 mt-4 leading-relaxed">
+            TECHATHONE is an intercollege tech fest curated for premium tech experience. The fest blends
+            competitive challenges with creativity and innovation showcase.
+          </p>
+        </div>
+
+        <div class="glass rounded-3xl p-8 reveal">
+          <h3 class="text-xl font-bold">Experience</h3>
+          <div class="mt-6 grid gap-4">
+            <div class="glass rounded-2xl p-5 cardHover">
+              <p class="font-semibold">Competitive Challenges</p>
+              <p class="text-sm text-slate-300 mt-1">Blind coding, debugging, puzzles and esports.</p>
+            </div>
+            <div class="glass rounded-2xl p-5 cardHover">
+              <p class="font-semibold">Creative Events</p>
+              <p class="text-sm text-slate-300 mt-1">Poster design, video editing, photography and reels.</p>
+            </div>
+            <div class="glass rounded-2xl p-5 cardHover">
+              <p class="font-semibold">Expo & VR</p>
+              <p class="text-sm text-slate-300 mt-1">Tech exhibition, VR show and special attraction.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVENTS -->
+    <section id="events" class="max-w-7xl mx-auto px-5 pb-20">
+      <div class="reveal">
+        <h2 class="text-3xl md:text-4xl font-black">Events <span class="text-grad">Lineup</span></h2>
+        <p class="text-slate-300 mt-2">Premium categories for TECHATHONE.</p>
+      </div>
+
+      <div class="mt-10 grid lg:grid-cols-3 gap-6">
+        <div class="glass rounded-3xl p-7 reveal cardHover">
+          <h3 class="text-xl font-bold text-red-300">Heavy Hitters</h3>
+          <ul class="mt-4 space-y-2 text-slate-200">
+            <li>Treasure Hunt</li>
+            <li>E-Sports</li>
+            <li>Puzzle Game</li>
+             <li>Guess The Tech</li>
+          </ul>
+        </div>
+
+        <div class="glass rounded-3xl p-7 reveal cardHover">
+          <h3 class="text-xl font-bold text-rose-300">Fast-Paced Events</h3>
+          <ul class="mt-4 space-y-2 text-slate-200">
+            <li>Blind Coding</li>
+            <li>Debugging</li>
+            <li>UI Sprint Challenge</li>
+            <!-- <li>Code Golf</li> -->
+             <li>Case Investigation</li>
+          </ul>
+        </div>
+
+        <div class="glass rounded-3xl p-7 reveal cardHover">
+          <h3 class="text-xl font-bold text-red-300">Fun Games</h3>
+          <ul class="mt-4 space-y-2 text-slate-200">
+            <li>Subway Surfers / Temple Run</li>
+            <li>Ludo</li>
+            <li>Carroms</li>
+            <li>UNO</li>
+            <li>Al-Kulth Games</li>
+          </ul>
+        </div>
+
+        <div class="glass rounded-3xl p-7 reveal cardHover">
+          <h3 class="text-xl font-bold text-rose-300">Innovation & Business</h3>
+          <ul class="mt-4 space-y-2 text-slate-200">
+            <li>Video Editing</li>
+            <li>Posters Designing</li>
+            <li>Idea Presentation</li>
+            <li>Debate</li>
+          </ul>
+        </div>
+
+        <div class="glass rounded-3xl p-7 reveal cardHover">
+          <h3 class="text-xl font-bold text-red-300">Online Events</h3>
+          <ul class="mt-4 space-y-2 text-slate-200">
+            <li>Reels Competition</li>
+            <li>Photography</li>
+          </ul>
+        </div>
+
+        <div class="glass rounded-3xl p-7 reveal cardHover">
+          <h3 class="text-xl font-bold text-rose-300">Expo</h3>
+          <ul class="mt-4 space-y-2 text-slate-200">
+            <li>Tech Exhibition</li>
+            <li>VR Show</li>
+            <li>Dog Show</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- POSTERS -->
+    <section id="posters" class="max-w-7xl mx-auto px-5 pb-20">
+      <div class="reveal">
+        <h2 class="text-3xl md:text-4xl font-black">Posters <span class="text-grad">Gallery</span></h2>
+        <p class="text-slate-300 mt-2">Click to preview.</p>
+      </div>
+
+      <div class="mt-10 columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 reveal">
+        <img onclick="openPoster(this.src)" class="w-full rounded-3xl glass hover:opacity-90 cursor-pointer transition" src="./posters/ThechathoneBlue.jpg.png" />
+        <img onclick="openPoster(this.src)" class="w-full rounded-3xl glass hover:opacity-90 cursor-pointer transition" src="./posters/Thechathonelavander.jpg.png" />
+        <img onclick="openPoster(this.src)" class="w-full rounded-3xl glass hover:opacity-90 cursor-pointer transition" src="./posters/ThechathoneYellow.jpg.png" />
+      </div>
+    </section>
+
+    <!-- SPONSORS -->
+    <section id="sponsors" class="max-w-7xl mx-auto px-5 pb-20">
+      <div class="reveal">
+        <h2 class="text-3xl md:text-4xl font-black">Sponsors <span class="text-grad">Partners</span></h2>
+        <p class="text-slate-300 mt-2">Add your sponsor logos here.</p>
+      </div>
+
+      <div class="mt-10 glass rounded-[32px] p-6 reveal">
+        <div class="marquee">
+          <!-- track repeated twice for seamless -->
+          <div class="marquee-track">
+            <div class="glass rounded-2xl px-6 py-4 text-slate-200">Sponsor One</div>
+            <div class="glass rounded-2xl px-6 py-4 text-slate-200">Sponsor Two</div>
+            <div class="glass rounded-2xl px-6 py-4 text-slate-200">Sponsor Three</div>
+            <div class="glass rounded-2xl px-6 py-4 text-slate-200">Sponsor Four</div>
+            <div class="glass rounded-2xl px-6 py-4 text-slate-200">Sponsor Five</div>
+            <div class="glass rounded-2xl px-6 py-4 text-slate-200">Sponsor Six</div>
+
+            <!-- duplicate -->
+            <div class="glass rounded-2xl px-6 py-4 text-slate-200">Sponsor One</div>
+            <div class="glass rounded-2xl px-6 py-4 text-slate-200">Sponsor Two</div>
+            <div class="glass rounded-2xl px-6 py-4 text-slate-200">Sponsor Three</div>
+            <div class="glass rounded-2xl px-6 py-4 text-slate-200">Sponsor Four</div>
+            <div class="glass rounded-2xl px-6 py-4 text-slate-200">Sponsor Five</div>
+            <div class="glass rounded-2xl px-6 py-4 text-slate-200">Sponsor Six</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="max-w-7xl mx-auto px-5 pb-20">
+      <div class="reveal">
+        <h2 class="text-3xl md:text-4xl font-black">FAQ <span class="text-red-300">Info</span></h2>
+      </div>
+
+      <div class="mt-10 grid lg:grid-cols-2 gap-6">
+        <div class="glass rounded-3xl p-7 reveal">
+          <p class="font-bold text-lg">Who can participate?</p>
+          <p class="text-slate-300 mt-2 text-sm">
+            Any college student can participate. Intercollege participation is allowed.
+          </p>
+        </div>
+        <div class="glass rounded-3xl p-7 reveal">
+          <p class="font-bold text-lg">How to register?</p>
+          <p class="text-slate-300 mt-2 text-sm">
+            On click the register button it redirect to  Register section.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- REGISTER -->
+    <section id="register" class="max-w-7xl mx-auto px-5 pb-24">
+      <div class="glass rounded-[42px] p-10 md:p-12 reveal relative overflow-hidden">
+        <div class="absolute inset-0 opacity-40 bg-gradient-to-r from-[#7f1d1d]/22 via-transparent to-[#be123c]/18"></div>
+        <div class="relative text-center">
+          <h2 class="text-3xl md:text-5xl font-black">
+            Register for <span class="text-grad">TECHATHONE</span>
+          </h2>
+          <p class="text-slate-300 mt-4 max-w-2xl mx-auto">
+            Replace the demo registration link with your Google Form link.
+          </p>
+
+          <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="#" class="px-7 py-3 rounded-2xl font-bold text-black bg-gradient-to-tr from-[#7f1d1d] to-[#be123c] hover:scale-[1.03] transition">
+              Register Now
+            </a>
+            <a href="#contact" class="px-7 py-3 rounded-2xl glass hover:bg-white/10 transition font-semibold">
+              Contact
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="max-w-7xl mx-auto px-5 pb-24">
+      <div class="reveal">
+        <h2 class="text-3xl md:text-4xl font-black">Contact <span class="text-grad">Us</span></h2>
+      </div>
+
+      <div class="mt-10 grid lg:grid-cols-2 gap-6">
+        <div class="glass rounded-3xl p-8 reveal">
+          <h3 class="font-bold text-xl">Venue</h3>
+          <p class="text-slate-300 mt-2">
+            St Antony's College, Peruvanthanam<br />
+            Department of Computer Science
+          </p>
+
+          <div class="mt-7 glass rounded-2xl p-6">
+            <h4 class="font-bold text-lg">Coordinators</h4>
+            <p class="text-slate-300 text-sm mt-3">
+              Coordinator 1: +91 70258 #####<br />
+              Coordinator 2: +91 ##### 84527<br />
+              Coordinator 3: +91 703## ##457
+            </p>
+
+            <a href="https://wa.me/917025800579" class="mt-6 inline-flex w-full justify-center px-6 py-3 rounded-2xl bg-white text-black font-bold hover:scale-[1.02] transition">
+              WhatsApp
+            </a>
+          </div>
+        </div>
+
+        <div class="glass rounded-3xl p-4 overflow-hidden reveal">
+          <iframe
+            class="w-full h-[420px] rounded-2xl"
+            src="https://www.google.com/maps?q=St%20Antony's%20college%20peruvanthanam&output=embed"
+            loading="lazy"
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
+    <footer class="border-t border-white/10 py-10">
+      <div class="max-w-7xl mx-auto px-5 text-center text-slate-400 text-sm">
+        <p class="text-white font-semibold">TECHATHONE</p>
+        <p class="mt-2">Department Of Computer Science • St Antony's College Peruvanthanam</p>
+      </div>
+    </footer>
+
+    <!-- POSTER MODAL -->
+    <div id="posterModal" class="fixed inset-0 z-[999] hidden items-center justify-center bg-black/75 backdrop-blur-xl px-5">
+      <div class="w-full max-w-5xl glass rounded-3xl p-4 relative">
+        <button onclick="closePoster()" class="absolute top-4 right-4 px-4 py-2 rounded-xl glass hover:bg-white/10 transition">
+          Close
+        </button>
+        <img id="posterPreview" src="" class="w-full max-h-[85vh] object-contain rounded-2xl bg-black" />
+      </div>
+    </div>
+
+
+    <!-- ✅ KEEP YOUR REMAINING SECTIONS SAME -->
+    <!-- About, Events, Posters, Sponsors, FAQ, Register, Contact, Footer, Modal -->
+
+    <!-- SCRIPT -->
+    <script>
+      /* ---------------------------
+         Dark/Light Mode (localStorage)
+      ----------------------------*/
+      const themeToggle = document.getElementById("themeToggle")
+      const themeIcon = document.getElementById("themeIcon")
+      const root = document.documentElement
+
+      function setTheme(mode) {
+        if (mode === "dark") {
+          root.classList.add("dark")
+          themeIcon.textContent = "🌙"
+          localStorage.setItem("theme", "dark")
+        } else {
+          root.classList.remove("dark")
+          themeIcon.textContent = "☀️"
+          localStorage.setItem("theme", "light")
+        }
+      }
+
+      // Load saved theme
+      const savedTheme = localStorage.getItem("theme")
+      if (savedTheme) {
+        setTheme(savedTheme)
+      } else {
+        // Default theme
+        setTheme("dark")
+      }
+
+      if (themeToggle) {
+        themeToggle.addEventListener("click", () => {
+          const isDark = root.classList.contains("dark")
+          setTheme(isDark ? "light" : "dark")
+        })
+      }
+
+      /* ---------------------------
+         Scroll progress bar
+      ----------------------------*/
+      window.addEventListener("scroll", () => {
+        const winScroll =
+          document.body.scrollTop || document.documentElement.scrollTop
+        const height =
+          document.documentElement.scrollHeight -
+          document.documentElement.clientHeight
+        const scrolled = (winScroll / height) * 100
+
+        const progressBar = document.getElementById("progressBar")
+        if (progressBar) progressBar.style.width = scrolled + "%"
+      })
+
+      /* ---------------------------
+         Reveal animations
+      ----------------------------*/
+      const reveals = document.querySelectorAll(".reveal")
+      const revealOnScroll = () => {
+        reveals.forEach((r) => {
+          const rect = r.getBoundingClientRect()
+          if (rect.top < window.innerHeight - 80) r.classList.add("active")
+        })
+      }
+      window.addEventListener("scroll", revealOnScroll)
+      window.addEventListener("load", revealOnScroll)
+
+      /* ---------------------------
+         Countdown Timer
+      ----------------------------*/
+      const festDate = new Date("2026-02-20T09:30:00").getTime()
+
+      const updateCountdown = () => {
+        const now = new Date().getTime()
+        const diff = festDate - now
+
+        const daysEl = document.getElementById("days")
+        const hoursEl = document.getElementById("hours")
+        const minutesEl = document.getElementById("minutes")
+        const secondsEl = document.getElementById("seconds")
+
+        if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return
+
+        if (diff <= 0) {
+          daysEl.innerText = "00"
+          hoursEl.innerText = "00"
+          minutesEl.innerText = "00"
+          secondsEl.innerText = "00"
+          return
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24)
+        const minutes = Math.floor((diff / (1000 * 60)) % 60)
+        const seconds = Math.floor((diff / 1000) % 60)
+
+        daysEl.innerText = String(days).padStart(2, "0")
+        hoursEl.innerText = String(hours).padStart(2, "0")
+        minutesEl.innerText = String(minutes).padStart(2, "0")
+        secondsEl.innerText = String(seconds).padStart(2, "0")
+      }
+
+      setInterval(updateCountdown, 1000)
+      updateCountdown()
+
+      /* ---------------------------
+         Mobile menu
+      ----------------------------*/
+      const menuBtn = document.getElementById("menuBtn")
+      const mobileMenu = document.getElementById("mobileMenu")
+
+      if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener("click", (e) => {
+          e.stopPropagation()
+          mobileMenu.classList.toggle("hidden")
+        })
+
+        mobileMenu.querySelectorAll("a").forEach((a) => {
+          a.addEventListener("click", () => mobileMenu.classList.add("hidden"))
+        })
+
+        document.addEventListener("click", (e) => {
+          const clickedInsideMenu = mobileMenu.contains(e.target)
+          const clickedMenuBtn = menuBtn.contains(e.target)
+
+          if (!clickedInsideMenu && !clickedMenuBtn) {
+            mobileMenu.classList.add("hidden")
+          }
+        })
+      }
+
+      /* ---------------------------
+         Scrollspy
+      ----------------------------*/
+      const sections = [
+        "home",
+        "about",
+        "countdown",
+        "events",
+        "posters",
+        "sponsors",
+        "faq",
+        "register",
+        "contact",
+      ]
+
+      const allNavLinks = document.querySelectorAll(".navlink")
+
+      function setActive(sectionId) {
+        allNavLinks.forEach((link) => {
+          const sec = link.getAttribute("data-section")
+          if (sec === sectionId) link.classList.add("active")
+          else link.classList.remove("active")
+        })
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) setActive(entry.target.id)
+          })
+        },
+        { threshold: 0.55 }
+      )
+
+      sections.forEach((id) => {
+        const el = document.getElementById(id)
+        if (el) observer.observe(el)
+      })
+
+      setActive("home")
+    </script>
+  </body>
+</html>
